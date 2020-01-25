@@ -1,0 +1,23 @@
+public function up()
+    {
+        Schema::create('parfumes', function (Blueprint $table) {
+            $table->bigIncrements('id')->unique();
+            $table->char('name', 12)->unique();
+            $table->char('slug', 12)->unique();
+            $table->text('description');
+            $table->char('path_to_small_icon', 20);
+            $table->char('path_to_big_icon', 20);
+            $table->unsignedBigInteger('category_id');
+            $table->timestamps();
+        });
+
+        Schema::create('category', function (Blueprint $table) {
+            $table->bigIncrements('id')->unique();
+            $table->char('name', 12)->unique();
+            $table->timestamps();
+        });
+
+        Schema::table('parfumes', function (Blueprint $table) {
+            $table->foreign('category_id')->references('id')->on('category');;
+        });
+    }
